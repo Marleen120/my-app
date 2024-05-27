@@ -1,8 +1,9 @@
 
-import React, { useState, useEffect } from 'react';
-import { View, Button, TextInput, StyleSheet, Text } from 'react-native';
+import React, { useState } from 'react';
+import { View, TextInput, Button, Text, StyleSheet, ImageBackground } from 'react-native';
 import { auth } from './Firebase';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -15,7 +16,9 @@ const Login = ({ navigation }) => {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       console.log("User data:", user);
-      navigation.navigate('Home');
+      AsyncStorage.setItem('currentUser',JSON.stringify(user.email))
+      navigation.navigate('DrawerNavigation');
+      
     } catch (error) {
       if (error.code === 'auth/user-not-found') {
         console.log("User does not exist. Please sign up.");
@@ -38,47 +41,51 @@ const Login = ({ navigation }) => {
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
-      console.error("Error code:", errorCode);
-      console.error("Error message:", errorMessage);
+      // console.error("Error code:", errorCode);
+      // console.error("Error message:", errorMessage);
     }
   };
 
-//   useEffect(() => {
-//     const unsubscribe = navigation.addListener('focus', () => {
-//       console.log("Pichle page k function ko call krne k liye")
-//     });
-//     return unsubscribe;
-//   }, [navigation]);
-
   return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        onChangeText={text => setEmail(text)}
-        value={email} 
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        onChangeText={text => setPassword(text)}
-        value={password}
-        secureTextEntry={true} // Hide password characters
-      />
-     <Button title="Login" onPress={handleLogin} />
-  <View style={styles.signupContainer}>
-    <Text style={styles.signupText}>Don't have an account? </Text>
-    <Text style={styles.signupLink} onPress={handleSignup}>Signup</Text>
-  </View>
-</View>);
+    <ImageBackground
+    source={require('./assets/pic1.jpg')}
+    style={styles.background}
+  >
+  
+      <View style={styles.container}>
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          onChangeText={text => setEmail(text)}
+          value={email}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          onChangeText={text => setPassword(text)}
+          value={password}
+          secureTextEntry={true}
+        />
+        <Button title="Login" onPress={handleLogin} />
+        <View style={styles.signupContainer}>
+          <Text style={styles.signupText}>Don't have an account? </Text>
+          <Text style={styles.signupLink} onPress={handleSignup}>Signup </Text>
+        </View>
+      </View>
+    </ImageBackground>
+  );
 };
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'center',
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
   },
   input: {
     width: '80%',
@@ -87,21 +94,33 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 5,
+    backgroundColor: 'rgba(255, 255, 255, 0.8)', // Transparent white background for text input
+  },
+  signupContainer: {
+    flexDirection: 'row',
+    marginTop: 20,
   },
   signupText: {
-    marginRight:'10%',
-    marginTop: 20,
+    marginTop:'5%',
+    marginRight: '5%',
     fontSize: 16,
-    
+    color: 'white',
+    textShadowColor: 'black', // Add text shadow color
+    textShadowOffset: { width: 2, height: 2 }, // Set text shadow offset
+    textShadowRadius: 2, // Set text shadow radius
   },
+  
   signupLink: {
-    color: 'blue',
+    color: 'white',
+    marginTop:'5%',
     textDecorationLine: 'underline',
+    marginRight:'15%',
     fontSize: 16,
+    textShadowColor: 'black', // Add text shadow color
+    textShadowOffset: { width: 2, height: 2 }, // Set text shadow offset
+    textShadowRadius: 2, // Set text shadow radius
   },
-  SignupButton:{
-    marginTop:'10%',
-  }
+  
 });
 
 export default Login;

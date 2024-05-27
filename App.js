@@ -1,41 +1,43 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Home from './Screens.js/Home.js';
-import SettingsScreen from './Screens.js/SettingsScreen';
- import SignupScreen  from './Signupp.js'
-import Login from './Login';
+import { createStackNavigator } from '@react-navigation/stack';
+import { LogBox } from "react-native";
+// import SettingsScreen from './Screens.js/SettingsScreen';
+//  import SignupScreen  from './Signupp.js'
+// import Login from './Login.js';
+// import AllTestsScreen from './Screens.js/Alltests.js';
+// import MainHomeScreen from './Screens.js/Home.js';
+// import BuyScreen from './Screens.js/BuyScreen.js';
+// import BookHomeSampling from './Screens.js/BookHomeSampling.js';
+// import CartScreen from './Screens.js/CartScreen.js';
+// import AppointmentScreen from './Screens.js/Appointment.js';
+// import BookTestsScreen from './Screens.js/BookTests.js';
 
-const Drawer = createDrawerNavigator();
-const Tab = createBottomTabNavigator();
+
+import BottomTabNavigation from './Navigations/BottomTabNavigation';
+import DrawerNavigation from './Navigations/DrawerNavigation';
+import AuthNavigation from './Navigations/AuthNavigation'
+LogBox.ignoreAllLogs(true);
 
 
+// const Drawer = createDrawerNavigator();
+// const Tab = createBottomTabNavigator();
 
-function TabNavigator() {
+export default function TabNavigator() {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
-      <Tab.Screen name="Login" component={Login} />
-      <Tab.Screen name="signup" component={SignupScreen} />
-      
-      
 
-    </Tab.Navigator>
-  );
-}
+  //   <View>
+    <NavigationContainer  >
 
-export default function App() {
-  return (
-    <NavigationContainer>
-      <Drawer.Navigator>
-        <Drawer.Screen name="Home" component={TabNavigator} />
-        <Drawer.Screen name="Settings" component={SettingsScreen} />
-        <Drawer.Screen name="Login" component={Login} />
-        <Drawer.Screen name="Signup" component={SignupScreen} />
-      </Drawer.Navigator>
+      {/* <BottomTabNavigation/> */}
+      {/* <DrawerNavigation/> */}
+      <AuthNavigation/>
+      
     </NavigationContainer>
+    // </View>
+
   );
 }
+
