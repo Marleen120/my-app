@@ -13,6 +13,7 @@ import BookTestsScreen from '../Screens.js/BookTests.js';
 
 import BottomTabNavigation from './BottomTabNavigation.js';
 import LogoutScreen from '../Screens.js/Logout.js';
+import Profile from '../Screens.js/Profile.js';
 
 
 
@@ -27,6 +28,7 @@ export default function DrawerNavigation() {
         <Drawer.Screen name="Home." component={BottomTabNavigation} />
   
         <Drawer.Screen name="Logout" component={LogoutScreen} />
+        <Drawer.Screen name="Profile" component={Profile} />
 
     </Drawer.Navigator>
 

@@ -20,6 +20,7 @@ import ArticleScreen from '../Screens.js/ArticleScreen';
 import FeedbackScreen from '../Screens.js/Feedback';
 import CartScreen from '../Screens.js/CartScreen';
 import GoodByeScreen from '../Screens.js/GoodBye';
+import Profile from '../Screens.js/Profile';
 
 
 const Stack = createStackNavigator();
@@ -52,6 +53,8 @@ export default function HomeStackNavigation() {
         <Stack.Screen name="Logout" component={LogoutScreen}  />
         <Stack.Screen name="ArticleScreen" component={ArticleScreen}  options={{ headerStyle: { backgroundColor: 'lightblue' } }}/>
         <Stack.Screen name="GoodBye" component={GoodByeScreen} />
+
+        <Stack.Screen name="Profile" component={Profile} />
 
 
 
