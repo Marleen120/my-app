@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { View, Text,  TouchableOpacity, Image, ScrollView } from 'react-native';
 import LottieView from 'lottie-react-native';
 import * as Location from 'expo-location';
-
-const MainHomeScreen = ({ navigation}) => {
+import CustomButton from '../CustomButtons';
+import { styles } from '../Styles';
+const MainHomeScreen = ({ navigation }) => {
   const [locationName, setLocationName] = useState(null);
-
 
   const articles = [
     { title: "Calcium deficiency", content: "Content of article 1", image: require('../assets/calcium.jpg') },
@@ -51,7 +51,7 @@ const MainHomeScreen = ({ navigation}) => {
       "Safety and Efficacy:\n" +
       "These vaccines have undergone rigorous testing in clinical trials to ensure safety and efficacy. Vaccination campaigns aim to achieve herd immunity, where a sufficient proportion of the population is immune to the virus, thereby reducing transmission and protecting vulnerable individuals from severe illness and death.\n"
   };
-  
+
   const requestLocationPermission = async () => {
     try {
       const { status } = await Location.requestForegroundPermissionsAsync();
@@ -134,46 +134,36 @@ const MainHomeScreen = ({ navigation}) => {
         <Text style={styles.bookNowText}>Book Now!</Text>
         {/* {locationName && <Text style={styles.locationText}>Current Location: {locationName}</Text>} */}
       </View>
-
+{/* CUSTOM BUTTON */}
       <View style={styles.serviceButtonsContainer}>
         <View style={styles.serviceButtonRow}>
-          <TouchableOpacity style={styles.serviceButton} onPress={() => navigateToService('Book Home Sampling')}>
-            <View style={styles.iconBox}>
-              <Image source={require('../assets/homee.jpg')} style={styles.icon} />
-            </View>
-            <View style={styles.buttonTextContainer}>
-              <Text style={styles.serviceButtonText}>Home Sampling</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.serviceButton} onPress={() => navigateToService('All Tests')}>
-            <View style={styles.iconBox}>
-              <Image source={require('../assets/test.jpg')} style={styles.icon} />
-            </View>
-            <View style={styles.buttonTextContainer}>
-              <Text style={styles.serviceButtonText}>Tests</Text>
-            </View>
-          </TouchableOpacity>
+          <CustomButton 
+            iconSource={require('../assets/homee.jpg')} 
+            text="Home Sampling" 
+            onPress={() => navigateToService('Book Home Sampling')} 
+          />
+          <CustomButton 
+            iconSource={require('../assets/test.jpg')} 
+            text="Tests" 
+            onPress={() => navigateToService('All Tests')} 
+          />
         </View>
 
         <View style={styles.serviceButtonRow}>
-          <TouchableOpacity style={styles.serviceButton} onPress={() => navigateToService('Book Appointment')}>
-            <View style={styles.iconBox}>
-              <Image source={require('../assets/appointment.jpg')} style={styles.icon} />
-            </View>
-            <View style={styles.buttonTextContainer}>
-              <Text style={styles.serviceButtonText}>Book Appointment</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.serviceButton} onPress={() => navigateToService('Book Doctor Appointment')}>
-            <View style={styles.iconBox}>
-              <Image source={require('../assets/doctors.jpg')} style={styles.icon} />
-            </View>
-            <View style={styles.buttonTextContainer}>
-              <Text style={styles.serviceButtonText}>Feedback</Text>
-            </View>
-          </TouchableOpacity>
+          <CustomButton 
+            iconSource={require('../assets/appointment.jpg')} 
+            text="Book Appointment" 
+            onPress={() => navigateToService('Book Appointment')} 
+          />
+          <CustomButton 
+            iconSource={require('../assets/doctors.jpg')} 
+            text="Feedback" 
+            onPress={() => navigateToService('Book Doctor Appointment')} 
+          />
         </View>
       </View>
+
+      {/* CUSTOM FLAT LIST  */}
 
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.articlesContainer}>
         {articles.map((article, index) => (
@@ -187,127 +177,99 @@ const MainHomeScreen = ({ navigation}) => {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-    paddingTop: 5,
-  },
-  textContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  sliderText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 5,
-    color: 'lightblue',
-    textShadowColor: 'black',
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 1,
-    textAlign: 'center',
-    marginTop:40,
-  },
-  bookNowText: {
-    color: 'black',
-    textShadowColor: 'lightblue',
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 1,
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  locationText: {
-    marginTop: 10,
-    fontSize: 16,
-    color: 'gray',
-  },
-  serviceButton: {
-    alignItems: 'center',
-    marginBottom: 20,
-    width: '45%',
-    marginTop: 40,
-  },
-  serviceButtonText: {
-    color: 'black',
-    fontWeight: 'bold',
-    textAlign: 'center',
-    fontSize: 15,
-  },
-  iconBox: {
-    width: 100,
-    height: 100,
-    borderRadius: 10,
-    overflow: 'hidden',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 10,
-  },
-  icon: {
-    width: 100,
-    height: 100,
-  },
-  sliderContainer: {
-    width: '100%',
-    height: 190,
-    marginBottom: 16,
-  },
-  sliderImage: {
-    width: '100%',
-    height: '80%',
-    resizeMode: 'cover',
-  },
-  serviceButtonsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-  },
-  serviceButtonRow: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonTextContainer: {
-    width: 100,
-  },
-  animationContainer: {
-    width: '100%',
-    height: 200,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  animation: {
-    width: '100%',
-    height: '130%',
-    marginTop: 70,
-    marginBottom: 40,
-  },
-  articlesContainer: {
-    paddingHorizontal: 20,
-    paddingBottom: 10,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  articleCard: {
-    backgroundColor: '#f0f0f0',
-    padding: 10,
-    borderRadius: 10,
-    marginRight: 10,
-    width: 200,
-  },
-  articleTitle: {
-    fontWeight: 'bold',
-    fontSize: 16,
-    marginBottom: 5,
-  },
-  articleContent: {
-    fontSize: 14,
-  },
-  articleImage: {
-    width: '100%',
-    height: 150,
-    borderRadius: 10,
-    marginBottom: 5,
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: 'white',
+//     paddingTop: 5,
+//   },
+//   textContainer: {
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//   },
+//   sliderText: {
+//     fontSize: 18,
+//     fontWeight: 'bold',
+//     marginBottom: 5,
+//     color: 'lightblue',
+//     textShadowColor: 'black',
+//     textShadowOffset: { width: 1, height: 1 },
+//     textShadowRadius: 1,
+//     textAlign: 'center',
+//     marginTop:40,
+//   },
+//   bookNowText: {
+//     color: 'black',
+//     textShadowColor: 'lightblue',
+//     textShadowOffset: { width: 1, height: 1 },
+//     textShadowRadius: 1,
+//     fontSize: 18,
+//     fontWeight: 'bold',
+//     textAlign: 'center',
+//   },
+//   locationText: {
+//     marginTop: 10,
+//     fontSize: 16,
+//     color: 'gray',
+//   },
+//   sliderContainer: {
+//     width: '100%',
+//     height: 190,
+//     marginBottom: 16,
+//   },
+//   sliderImage: {
+//     width: '100%',
+//     height: '80%',
+//     resizeMode: 'cover',
+//   },
+//   serviceButtonsContainer: {
+//     flexDirection: 'row',
+//     justifyContent: 'space-between',
+//     paddingHorizontal: 20,
+//   },
+//   serviceButtonRow: {
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//   },
+//   animationContainer: {
+//     width: '100%',
+//     height: 200,
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//   },
+//   animation: {
+//     width: '100%',
+//     height: '130%',
+//     marginTop: 70,
+//     marginBottom: 40,
+//   },
+//   articlesContainer: {
+//     paddingHorizontal: 20,
+//     paddingBottom: 10,
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//   },
+//   articleCard: {
+//     backgroundColor: '#f0f0f0',
+//     padding: 10,
+//     borderRadius: 10,
+//     marginRight: 10,
+//     width: 200,
+//   },
+//   articleTitle: {
+//     fontWeight: 'bold',
+//     fontSize: 16,
+//     marginBottom: 5,
+//   },
+//   articleContent: {
+//     fontSize: 14,
+//   },
+//   articleImage: {
+//     width: '100%',
+//     height: 150,
+//     borderRadius: 10,
+//     marginBottom: 5,
+//   },
+// });
 
 export default MainHomeScreen;

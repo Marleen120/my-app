@@ -6,14 +6,15 @@ import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { getFirestore } from 'firebase/firestore';
 import { Picker } from '@react-native-picker/picker';
 import { FontAwesome } from '@expo/vector-icons';
+import useCustomHookEmail from '../UseCustomHookEmail'; // Adjust the import path if needed
 
 const AppointmentScreen = () => {
   const navigation = useNavigation();
   
   const [patientName, setPatientName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [email, setEmail] = useState('');
-  const [emailError, setEmailError] = useState('');
+  const { email, setEmail, emailError, handleEmailChange } = useCustomHookEmail(); // Using custom hook for email
+  
   const [scheduleDate, setScheduleDate] = useState(new Date());
   const [selectedTime, setSelectedTime] = useState('');
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -56,15 +57,6 @@ const AppointmentScreen = () => {
     if (selectedDate) {
       setScheduleDate(selectedDate); // Update the selected date
       setDateLabel('Selected Date');
-    }
-  };
-
-  const handleEmailChange = (text) => {
-    setEmail(text);
-    if (!validateEmail(text)) {
-      setEmailError('Please enter a valid email address.');
-    } else {
-      setEmailError('');
     }
   };
 
@@ -163,6 +155,7 @@ const AppointmentScreen = () => {
     </ImageBackground>
   );
 };
+
 
 const styles = StyleSheet.create({
   background: {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
- import SignupScreen  from '../Signupp.js';
+ import SignupScreen  from '../Signupp.tsx';
 import Login from '../Login.js';
 import AllTestsScreen from '../Screens.js/Alltests.js';
 import MainHomeScreen from '../Screens.js/Home.js';

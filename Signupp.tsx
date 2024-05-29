@@ -1,13 +1,30 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import { View, Button, Text, TextInput, StyleSheet, ImageBackground, Alert } from 'react-native';
 import { auth } from './Firebase';
 import { createUserWithEmailAndPassword } from "firebase/auth";
+//SIGNUP TSX + CLASS COMPONENT
 
-const Signup = ({ navigation }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+interface SignupProps {
+  navigation: any; // Adjust according to your navigation type if needed
+}
 
-  const handleSignup = async () => {
+interface SignupState {
+  email: string;
+  password: string;
+}
+
+class Signup extends Component<SignupProps, SignupState> {
+  constructor(props: SignupProps) {
+    super(props);
+    this.state = {
+      email: '',
+      password: ''
+    };
+  }
+
+  handleSignup = async () => {
+    const { email, password } = this.state;
+
     // Regular expression to check for at least one digit and one alphabet character
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
 
@@ -21,44 +38,46 @@ const Signup = ({ navigation }) => {
       const user = userCredential.user;
       console.log("User signed up:", user);
       Alert.alert("Success", "User registered successfully!");
-      navigation.navigate('Login'); // Navigate to the Login screen after successful signup
-    } catch (error) {
+      this.props.navigation.navigate('Login'); // Navigate to the Login screen after successful signup
+    } catch (error: any) {
       const errorMessage = error.message;
       console.error("Signup error:", errorMessage);
       Alert.alert("Error", errorMessage);
     }
   };
 
-  return (
-    <ImageBackground
-      source={require('./assets/pic2.jpg')} // Adjust the path to your background image
-      style={styles.background}
-    >
-      <View style={styles.container}>
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          onChangeText={text => setEmail(text)}
-          value={email}
-          keyboardType="email-address"
-          autoCapitalize="none"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          onChangeText={text => setPassword(text)}
-          value={password}
-          secureTextEntry={true} // Hide password characters
-        />
-        <Button title="Signup" onPress={handleSignup} />
-        <View style={styles.signupContainer}>
-          <Text style={styles.login}>Already have an account? </Text>
-          <Text style={styles.loginText} onPress={() => (navigation.navigate('Login'))}>Login </Text>
+  render() {
+    return (
+      <ImageBackground
+        source={require('./assets/pic2.jpg')} // Adjust the path to your background image
+        style={styles.background}
+      >
+        <View style={styles.container}>
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            onChangeText={text => this.setState({ email: text })}
+            value={this.state.email}
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            onChangeText={text => this.setState({ password: text })}
+            value={this.state.password}
+            secureTextEntry={true} // Hide password characters
+          />
+          <Button title="Signup" onPress={this.handleSignup} />
+          <View style={styles.signupContainer}>
+            <Text style={styles.login}>Already have an account? </Text>
+            <Text style={styles.loginText} onPress={() => this.props.navigation.navigate('Login')}>Login  </Text>
+          </View>
         </View>
-      </View>
-    </ImageBackground>
-  );
-};
+      </ImageBackground>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   background: {
